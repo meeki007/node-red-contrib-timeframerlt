@@ -1,0 +1,33 @@
+{
+  "name": "timeframerlt",
+  "version": "0.2.1",
+  "description": "A Trigger and Rate Limit Node to pass messages if user count has been met within a defined user time frame.",
+  "homepage": "http://github.com/meeki007/node-red-contrib-timeframerlt",
+  "bugs": "http://github.com/meeki007/node-red-contrib-timeframerlt/issues",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "David 'Meeki007' Burrows",
+    "email": "meeki007@gmail.com",
+    "url": "http://github.com/meeki007"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:meeki007/node-red-contrib-timeframerlt.git"
+  },
+  "keywords": [
+    "node-red",
+    "throttle",
+    "limit",
+    "timeframe",
+    "trigger",
+    "rate",
+    "rate limit",
+    "time",
+    "counter"
+  ],
+  "node-red": {
+    "nodes": {
+      "timeframerlt": "timeframerlt.js"
+    }
+  }
+}
