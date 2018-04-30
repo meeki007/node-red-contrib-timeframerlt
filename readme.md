@@ -2,8 +2,6 @@ node-red-contrib-timeframerlt
 (timeframe rate limit trigger)
 =========================
 
-[![NPM version](https://badge.fury.io/js/node-red-contrib-timeframerlt.svg)](https://www.npmjs.com/package/node-red-contrib-timeframerlt)
-
 
 A <a href="http://nodered.org" target="_new">Node-RED</a> A Trigger and Rate Limit Node to pass messages if user count has been met within a defined user time frame.
 
