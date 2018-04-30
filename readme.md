@@ -1,4 +1,5 @@
-node-red-contrib-timeframe-rate-limit-trigger
+node-red-contrib-timeframerlt
+(timeframe rate limit trigger)
 =========================
 
 [![GitHub version](https://badge.fury.io/gh/eisbehr-%2Fnode-red-throttle.svg)](http://github.com/eisbehr-/node-red-throttle)
@@ -21,6 +22,7 @@ A <a href="http://nodered.org" target="_new">Node-RED</a> A Trigger and Rate Lim
 * [Bugs / Feature request](#bugs--feature-request)
 * [License](#license)
 * [Work](#work)
+* [Contributor of Project](#contributor)
 
 ---
 
@@ -29,7 +31,7 @@ A <a href="http://nodered.org" target="_new">Node-RED</a> A Trigger and Rate Lim
 Run the following command in your Node-RED user directory - typically `~/.node-red`:
 
 ```
-npm install node-red-contrib-timeframe-rate-limit-trigger
+npm install node-red-contrib-timeframerlt
 ```
 
 
@@ -59,7 +61,7 @@ Will only pass through a single message, ONCE! Hence Terminable. When the ammoun
 
 ## Example Flows
 
-Simple examples showing how to use the timeframe-rate-limit-trigger and it's output.
+Simple examples showing how to use the timeframerlt (timeframe rate limit trigger) and it's output.
 
 
 ### Example by Count Persistent
@@ -67,7 +69,7 @@ Simple examples showing how to use the timeframe-rate-limit-trigger and it's out
 ![example1.png](./doc/example1.png)
 
 ```JSON
-[{"id":"81be4802.e74478","type":"function","z":"8a25646f.9d541","name":"info msg","func":"msg.payload = \"injected\";\nreturn msg;","outputs":1,"noerr":0,"x":800,"y":60,"wires":[["789ee5ac.32e214"]]},{"id":"789ee5ac.32e214","type":"debug","z":"8a25646f.9d541","name":"output","active":true,"console":"false","complete":"payload","x":950,"y":80,"wires":[]},{"id":"99fbadf5.9b42e8","type":"throttle","z":"8a25646f.9d541","name":"","throttleType":"time","timeLimit":"3","timeLimitType":"seconds","countLimit":"3","blockSize":0,"locked":false,"x":800,"y":100,"wires":[["789ee5ac.32e214"]]},{"id":"681f30ee.8f3598","type":"inject","z":"8a25646f.9d541","name":"inject","topic":"","payload":"!!! PASSED THROUGH !!!","payloadType":"str","repeat":"","crontab":"","once":false,"x":650,"y":80,"wires":[["99fbadf5.9b42e8","81be4802.e74478"]]}]
+[{"id":"b0b8b22c.dd0f6","type":"inject","z":"99d92ba1.9f3598","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"onceDelay":0.1,"x":140,"y":160,"wires":[["2dbeb200.2d534e"]]},{"id":"d9a532a2.d8d81","type":"debug","z":"99d92ba1.9f3598","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","x":470,"y":160,"wires":[]},{"id":"2dbeb200.2d534e","type":"timeframerlt","z":"99d92ba1.9f3598","name":"","throttleType":"count","timeLimit":"2","timeLimitType":"seconds","countLimit":"4","byresetcountLimit":"4","x":310,"y":160,"wires":[["d9a532a2.d8d81"]]}]
 ```
 
 
@@ -76,7 +78,7 @@ Simple examples showing how to use the timeframe-rate-limit-trigger and it's out
 ![example2.png](./doc/example2.png)
 
 ```JSON
-[{"id":"a3d7f710.99f97","type":"debug","z":"8a25646f.9d541","name":"output","active":true,"console":"false","complete":"payload","x":950,"y":200,"wires":[]},{"id":"e2c6599a.0b5c98","type":"function","z":"8a25646f.9d541","name":"info msg","func":"msg.payload = \"injected\";\nreturn msg;","outputs":1,"noerr":0,"x":800,"y":180,"wires":[["a3d7f710.99f97"]]},{"id":"8a2c177f.24e0c8","type":"throttle","z":"8a25646f.9d541","name":"","throttleType":"count","timeLimit":"10","timeLimitType":"seconds","countLimit":"3","blockSize":0,"locked":false,"x":800,"y":220,"wires":[["a3d7f710.99f97"]]},{"id":"836ebd21.ad25","type":"inject","z":"8a25646f.9d541","name":"inject","topic":"","payload":"!!! PASSED THROUGH !!!","payloadType":"str","repeat":"","crontab":"","once":false,"x":650,"y":200,"wires":[["8a2c177f.24e0c8","e2c6599a.0b5c98"]]}]
+[{"id":"b0b8b22c.dd0f6","type":"inject","z":"99d92ba1.9f3598","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"onceDelay":0.1,"x":140,"y":160,"wires":[["2dbeb200.2d534e"]]},{"id":"d9a532a2.d8d81","type":"debug","z":"99d92ba1.9f3598","name":"","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","x":470,"y":160,"wires":[]},{"id":"2dbeb200.2d534e","type":"timeframerlt","z":"99d92ba1.9f3598","name":"","throttleType":"reset","timeLimit":"2","timeLimitType":"seconds","countLimit":"4","byresetcountLimit":"4","x":310,"y":160,"wires":[["d9a532a2.d8d81"]]},{"id":"f596a515.6d8208","type":"inject","z":"99d92ba1.9f3598","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"onceDelay":0.1,"x":140,"y":120,"wires":[["4296a6a.3809758"]]},{"id":"4296a6a.3809758","type":"change","z":"99d92ba1.9f3598","name":"","rules":[{"t":"set","p":"reset","pt":"msg","to":"payload","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":300,"y":120,"wires":[["2dbeb200.2d534e"]]}]
 ```
 
 
@@ -95,6 +97,8 @@ _Need computers to flip switches?
   
 Contact me at meeki007@gmail.com
 
+
+## Contributor of Project
 
 Thanks to [SunValleyFoods](https://www.sunvalleyfoods.com/) for being a buisness that supports opensource. They needed this node for a tempsensor monitoring and automation project for their freezers and cooers.
 
