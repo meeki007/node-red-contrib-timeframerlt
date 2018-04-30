@@ -2,7 +2,6 @@ node-red-contrib-timeframerlt
 (timeframe rate limit trigger)
 =========================
 
-[![GitHub version](https://badge.fury.io/gh/meeki007%2Fnode-red-contrib-timeframerlt.svg)](https://github.com/meeki007/node-red-contrib-timeframerlt)
 [![NPM version](https://badge.fury.io/js/node-red-contrib-timeframerlt.svg)](https://www.npmjs.com/package/node-red-contrib-timeframerlt)
 
 
