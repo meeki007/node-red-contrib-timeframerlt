@@ -1,0 +1,90 @@
+<script type="text/x-red" data-template-name="timeframerlt">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeLimit"><i class="fa fa-clock-o"></i> Timeframe</label>
+        <input type="text" id="node-input-timeLimit" placeholder="0" style="padding-left: 5px; width: 70%">
+        <input type="hidden" id="node-input-timeLimitType">
+    </div>
+    <div class="form-row">
+        <label for=""><i class="fa fa-filter"></i> Trigger</label>
+        <select id="node-input-throttleType" style="width: 70%">
+            <option value="count">by Count Persistent</option>
+            <option value="reset">by Count Terminable</option>
+        </select>
+    </div>
+    <div class="form-row throttle-limit-row hidden" id="throttle-limit-row-count">
+        <label for="node-input-countLimit"><i class="fa fa-hashtag"></i> Count Limit</label>
+        <input type="text" id="node-input-countLimit" placeholder="0">
+    </div>
+    <div class="form-row throttle-limit-row hidden" id="throttle-limit-row-reset">
+        <label for="node-input-byresetcountLimit"><i class="fa fa-hashtag"></i> Count Limit</label>
+        <input type="text" id="node-input-byresetcountLimit" placeholder="0">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="timeframerlt">
+    <p>A Trigger and Rate Limit Node to pass messages if user count has been met within a defined user time frame.</p>
+    <p>Just insert the node in between two others. Then the ammount of messages received in a certain time frame to trigger can be limited by different parameter selections.</p>
+    <p><strong>Timeframe:</strong><br/>
+    Amount of time given before message trigger event is reset.
+    For example: setting the node to <code>10 seconds</code> means, that you have ten seconds to reach enough messages to trigger one message to be forwarded.</p>
+    <p><strong>Count Persistent:</strong><br/>
+    Ammount of messages needed to trigger before one message is passed through. Persistent, If triggered the count is reset and it can be triggered again.
+    For example: setting the node to a count of <code>5</code> means, that five messages are needed within the specified timeframe before one message will be forwarded.</p>
+    <p><strong>Count Terminable:</strong><br/>
+    Will only pass through a single message, ONCE! Hence Terminable. When the ammount of messages needed active the trigger is reached. The trigger can be reset to send message when conditions are met again with <code>msg.reset</code>.
+    For example: setting the node to a count of <code>5</code> means, that five messages are needed within the specified timeframe before one message will be forwarded Once, One time, and never again, even if conditions are met again.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType("timeframerlt", {
+        category: "function",
+        defaults: {
+            name: {value:""}
+            throttleType: {value:"count"},
+            timeLimit: {value:0,validate:RED.validators.number()},
+            timeLimitType: {value:"seconds"},
+            countLimit: {value:0,validate:RED.validators.number()},
+            byresetcountLimit: {value:0,validate:RED.validators.number()},
+        },
+        color:"#e6e0f8",
+        inputs: 1,
+        outputs: 1,
+        icon: "timeframerlt.png",
+        label: function() {
+            return this.name || "timeframerlt";
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic" : "";
+        },
+        oneditprepare: function() {
+            // defaults
+            this.throttleType = !this.throttleType ? "time" : this.throttleType;
+            this.countLimit = !this.countLimit ? 0 : this.countLimit;
+            this.byresetcountLimit = !this.byresetcountLimit ? 0 : this.byresetcountLimit;
+            this.timeLimit = !this.timeLimit ? 0 : this.timeLimit;
+            this.timeLimitType = !this.timeLimitType ? "seconds" : this.timeLimitType;
+
+            // change listener for type select
+            $("#node-input-throttleType").change(function() {
+                $(".throttle-limit-row").hide();
+                $("#throttle-limit-row-" + $(this).val()).show();
+            });
+
+            // typed input for time throttle
+            $("#node-input-timeLimit").typedInput({
+                default: "seconds",
+                typeField: $("#node-input-timeLimitType"),
+                types: [
+                    {value: "milliseconds", label: "milliseconds", hasValue: true},
+                    {value: "seconds", label: "seconds", hasValue: true},
+                    {value: "minutes", label: "minutes", hasValue: true},
+                    {value: "hours", label: "hours", hasValue: true}
+                ]
+            });
+        }
+    });
+</script>
