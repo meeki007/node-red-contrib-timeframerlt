@@ -1,6 +1,6 @@
 module.exports = function(RED) {
     "use strict";
-
+//Thanks to allot of code written by Daniel 'Eisbehr' Kern and his [node-red-contrib-throttle](http://github.com/eisbehr-/node-red-throttle). I based and copied allot of code off his work as his node did not quite do what i needed.
     function timeframerlt(config) {
         RED.nodes.createNode(this, config);
 
