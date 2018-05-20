@@ -16,6 +16,7 @@ module.exports = function(RED) {
         this.time = Math.floor(Date.now());
         this.count = 0;
         this.reset = false;
+        
 
         // calculate time limit in milliseconds
         if( this.timeLimitType === "hours" ) {
@@ -28,6 +29,13 @@ module.exports = function(RED) {
             this.timeLimit *= 1000;
         }
 
+        // Node Status Icon - waiting for msg clear status
+        if( node.count == 0 ) {
+
+            node.status({
+            });
+        }
+
         this.on("input", function(msg) {
             // time frame
             if( isNaN(node.timeLimit) || !isFinite(node.timeLimit) ) {
@@ -35,26 +43,67 @@ module.exports = function(RED) {
             }
 
             var now = Math.floor(Date.now());
-            var resetmsgcount = function() { 
-                node.count = 0;
-                };
+            var status_reset = function() {
+                node.status({
+                    fill: 'yellow',
+                    shape: 'dot',
+                    text: 'reset'
+                });               
+            };
+            var status_waitingformsg = function() {
+                node.status({
+                });               
+            };
+            var status_waitingformsgreset = function() {
+                node.status({
+                    fill: 'red',
+                    shape: 'ring',
+                    text: 'waiting for manual msg.reset'
+                });               
+            };
+            var status_sent = function() {
+                node.status({
+                    fill: 'green',
+                    shape: 'dot',
+                    text: 'sent'
+                    });               
+            };
+            var status_count = function() {
+                    node.status({
+                        fill: 'blue',
+                        shape: 'dot',
+                        text: 'msg ' + node.count + ' of ' + node.countLimit
+                    });
+            };
 
-            if( node.time + node.timeLimit < now ) {
-                node.time = now;
-                setTimeout(resetmsgcount, node.timeLimit);
+            // timelimit
+            if ( node.reset === true ) {
+                setTimeout(status_waitingformsgreset, 0);
             }
+            else if( node.time + node.timeLimit < now ) {
+                node.time = now;
+                node.count = 0;
+                setTimeout(status_reset, node.timeLimit);
+                setTimeout(status_waitingformsg, node.timeLimit + 500);
+                
+            }
+
+
+
 
             // by count
             if( node.throttleType === "count" ) {
                 if( isNaN(node.countLimit) || !isFinite(node.countLimit) ) {
                     return this.error("count limit is not numeric", msg);
                 }
-
+                
                 ++node.count;
+                setTimeout(status_count, 0);
 
                 if( node.count >= node.countLimit ) {
                     node.send(msg);
                     node.count = 0;
+                    setTimeout(status_sent, 0);
                 }
             }
 
@@ -65,15 +114,23 @@ module.exports = function(RED) {
                 }
                 
                 ++node.count;
+                if ( node.reset === false ) {
+                    setTimeout(status_count, 0);
+                }
 
                 if( ( node.count >= node.byresetcountLimit && !node.reset ) || ( !node.count >= node.byresetcountLimit && node.reset ) ) {
                     node.reset = true;
                     node.send(msg);
+                    setTimeout(status_sent, 0);
+                    setTimeout(status_waitingformsgreset, node.timeLimit + 501);
+
                 }
 
-                else if( msg.reset ) {
+                if( msg.reset ) {
                     node.count = 0;
                     node.reset = false;
+                    setTimeout(status_reset, node.timeLimit);
+                    setTimeout(status_waitingformsg, node.timeLimit + 500);
                 }
             }
 

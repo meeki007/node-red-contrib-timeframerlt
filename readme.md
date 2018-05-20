@@ -3,7 +3,7 @@ node-red-contrib-timeframerlt
 =========================
 
 
-A <a href="http://nodered.org" target="_new">Node-RED</a> A Trigger and Rate Limit Node to pass messages if user count has been met within a defined user time frame.
+<a href="http://nodered.org" target="_new">Node-RED</a> A Trigger and Rate Limit Node to pass messages if user count has been met within a defined user time frame.
 
 ---
 
@@ -103,5 +103,13 @@ Thanks to allot of code written by Daniel 'Eisbehr' Kern and his [node-red-contr
 
 
 
+## release notes ##
+0.0.0 = (majorchange) . (new_feature) . (bugfix-simple_mod)
 
-end.
+version 0.2.4
+First Public release
+
+version 0.3.1
+Added node.status icons and txt to show what the node was doing
+
+
